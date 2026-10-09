@@ -1,0 +1,124 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-page: #d9d9d9;
+  --color-surface: #bfbfbf;
+  --color-alt: #844f4f;
+  --color-field: rgb(0 0 0 / 0.12);
+  --color-scrim: rgb(0 0 0 / 0.2);
+  --color-ink: #1b1b1b;
+  --color-inverse: #ffffff;
+  --color-accent: #4d5a9e;
+  --color-accent-strong: #3e4a86;
+  --color-danger: #9b1c1c;
+  --color-placeholder: #ad3434;
+  --color-placeholder-muted: #785858;
+
+  --font-sans: 'Inter Variable', Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Cormorant Garamond', ui-serif, Georgia, serif;
+
+  --text-display: clamp(4rem, 11.5vw, 13.75rem);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.01em;
+  /* Escala fluida entre 390px e 1440px de largura; fixa a partir de 1440px. */
+  --text-h1: clamp(2.5rem, 1.2rem + 5.333vw, 6rem);
+  --text-h1--line-height: 1.05;
+  --text-h1--letter-spacing: -0.02em;
+  --text-h2: clamp(1.75rem, 1.286rem + 1.905vw, 3rem);
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.01em;
+  --text-h3: clamp(1.25rem, 1.064rem + 0.762vw, 1.75rem);
+  --text-h3--line-height: 1.25;
+  --text-body-l: clamp(1.125rem, 1.032rem + 0.381vw, 1.375rem);
+  --text-body-l--line-height: 1.45;
+  --text-body: clamp(1rem, 0.954rem + 0.19vw, 1.125rem);
+  --text-body--line-height: 1.55;
+  --text-caption: clamp(0.78125rem, 0.746rem + 0.143vw, 0.875rem);
+  --text-caption--line-height: 1.45;
+  --text-nav: clamp(0.9375rem, 0.914rem + 0.095vw, 1rem);
+  --text-nav--line-height: 1.2;
+  --text-logo: clamp(1.25rem, 1.157rem + 0.381vw, 1.5rem);
+  --text-logo--line-height: 1.1;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+@layer base {
+  :root {
+    --header-h: clamp(4rem, 3.629rem + 1.524vw, 5rem);
+    --gutter: clamp(1.25rem, -0.5rem + 6.5vw, 7.5rem);
+    --gutter-header: clamp(1.25rem, 0.9rem + 1.6vw, 2.5rem);
+    --section-y: clamp(3rem, 1.886rem + 4.571vw, 7rem);
+    --gap: clamp(1rem, 0.5rem + 2vw, 3rem);
+    --nav-gap: clamp(1.25rem, 0.693rem + 2.286vw, 2.75rem);
+    color-scheme: light;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  html {
+    overscroll-behavior: none;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* A rolagem acontece no container de cada página (Page.tsx). */
+  body {
+    @apply bg-page font-sans text-ink antialiased;
+    overflow: hidden;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-inverse);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  main {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--color-ink) 35%, transparent) transparent;
+  }
+
+  img,
+  video {
+    -webkit-user-drag: none;
+  }
+}
+
+@layer components {
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.6s var(--ease-out-expo);
+  }
+  .link-underline:hover,
+  .group:hover .link-underline,
+  .link-underline:focus-visible {
+    background-size: 100% 1px;
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Reduz o espaçamento entre seções consecutivas de mesmo fundo. Fora de @layer para sobrepor py-*. */
+[data-tone='default'] + [data-tone='default'],
+[data-tone='alt'] + [data-tone='alt'] {
+  padding-top: calc(var(--section-y) * 0.35);
+}
