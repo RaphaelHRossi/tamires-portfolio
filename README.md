@@ -2,6 +2,8 @@
 
 A motion-driven portfolio website for **Tamires Da Pont**, a 3D, Motion and UX designer based in São Paulo, Brazil.
 
+**[View the live site →](https://tamires-portfolio.vercel.app/)**
+
 The goal was simple: let the work speak first. Every interaction — from browsing projects to opening a case study — is designed to feel continuous, so visitors move through the portfolio the way they would flip through a physical book of work.
 
 ![React](https://img.shields.io/badge/React_19-20232A?logo=react&logoColor=61DAFB)
@@ -72,5 +74,6 @@ The layout was designed for desktop and adapted to tablet and mobile, with typog
 ## Credits
 
 - **Client** — Tamires Da Pont
+- **Design & development** — Raphael
 
 All artwork, images and videos are © Tamires Da Pont. All rights reserved.
