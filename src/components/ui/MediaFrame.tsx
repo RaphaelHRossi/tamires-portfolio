@@ -1,5 +1,5 @@
 import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
-import { useId, type CSSProperties, type KeyboardEvent } from 'react'
+import { useId, useRef, type CSSProperties, type KeyboardEvent } from 'react'
 import { useScrollRoot } from '@/components/Page'
 import { toRect } from '@/context/FlightContext'
 import { useLightbox } from '@/context/LightboxContext'
@@ -36,6 +36,7 @@ export function MediaFrame({
   const lightbox = useLightbox()
   const reduceMotion = useReducedMotion()
   const [ref, state] = useRevealState<HTMLDivElement>(0.05)
+  const frameRef = useRef<HTMLDivElement>(null)
   const ratioStr = ratio ?? media.ratio ?? '16/9'
 
   const scrollRoot = useScrollRoot()
@@ -44,13 +45,14 @@ export function MediaFrame({
     container: scrollRoot ?? undefined,
     offset: ['start end', 'end start'],
   })
-  const y = useTransform(scrollYProgress, [0, 1], ['-6%', '6%'])
+  // O parallax desloca a moldura inteira, sem cortar as bordas da mídia.
+  const y = useTransform(scrollYProgress, [0, 1], [24, -24])
 
   const canZoom = zoomable && !!lightbox
   const isOpen = lightbox?.activeId === id
 
   const openZoom = () => {
-    const el = ref.current
+    const el = frameRef.current
     if (!canZoom || !el) return
     // Proporção real do arquivo, para exibir a mídia inteira quando ampliada.
     const img = el.querySelector('img')
@@ -72,34 +74,34 @@ export function MediaFrame({
   }
 
   return (
-    <div
+    <motion.div
       ref={ref}
-      role={canZoom ? 'button' : undefined}
-      tabIndex={canZoom ? 0 : undefined}
-      aria-label={canZoom ? `Expand: ${media.alt}` : undefined}
-      onClick={canZoom ? openZoom : undefined}
-      onKeyDown={canZoom ? onKeyDown : undefined}
-      className={cn('group/frame relative overflow-hidden', canZoom && 'cursor-zoom-in', isOpen && 'invisible', className)}
-      style={{ aspectRatio: toAspect(ratioStr), ...style }}
+      className={cn('relative', isOpen && 'invisible', className)}
+      style={{ y: parallax && !reduceMotion ? y : 0 }}
     >
-      <motion.div
-        className="absolute inset-0"
-        initial={{ scale: 1.12 }}
-        animate={{ scale: state === 'show' ? 1 : 1.12 }}
-        transition={{ duration: 1.4, ease: EASE_OUT }}
+      <div
+        ref={frameRef}
+        role={canZoom ? 'button' : undefined}
+        tabIndex={canZoom ? 0 : undefined}
+        aria-label={canZoom ? `Expand: ${media.alt}` : undefined}
+        onClick={canZoom ? openZoom : undefined}
+        onKeyDown={canZoom ? onKeyDown : undefined}
+        className={cn(
+          'group/frame relative overflow-hidden transition-transform duration-700 ease-out-expo',
+          canZoom && 'cursor-zoom-in',
+          (hoverZoom || canZoom) && 'hover:scale-[1.015]',
+        )}
+        style={{ aspectRatio: toAspect(ratioStr), ...style }}
       >
-        {/* Maior que a moldura para o deslocamento do parallax não expor as bordas. */}
-        <motion.div className="absolute inset-x-0 -inset-y-[8%]" style={{ y: parallax && !reduceMotion ? y : 0 }}>
-          <div
-            className={cn(
-              'h-full w-full transition-transform duration-700 ease-out-expo',
-              (hoverZoom || canZoom) && 'group-hover/frame:scale-[1.035]',
-            )}
-          >
-            <Media media={media} priority={priority} />
-          </div>
+        <motion.div
+          className="absolute inset-0"
+          initial={{ scale: 1.12 }}
+          animate={{ scale: state === 'show' ? 1 : 1.12 }}
+          transition={{ duration: 1.4, ease: EASE_OUT }}
+        >
+          <Media media={media} priority={priority} />
         </motion.div>
-      </motion.div>
-    </div>
+      </div>
+    </motion.div>
   )
 }

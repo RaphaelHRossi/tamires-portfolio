@@ -52,17 +52,52 @@ export const projects: Project[] = [
     title: 'KV Turma da Mônica Baby',
     year: '2025',
     category: '3D · Key visual',
-    cover: cover('KV Turma da Mônica Baby'),
+    // Capa usada no card do carrossel (corte 4:5) e no banner da página (até 26:10).
+    cover: {
+      kind: 'image',
+      src: '/media/kv-turma-da-monica-baby/capa.png',
+      alt: 'Turma da Mônica Baby Shortinho packaging on a 3D podium',
+    },
     blocks: [
       {
         type: 'intro',
         title: 'About the project',
-        paragraphs: introText,
+        paragraphs: [
+          'Celebrating the playful world of Turma da Mônica Baby through a fresh visual approach to introduce the new Shortinho packaging.',
+          'The project focuses on highlighting the product’s key benefits, combining its playful identity, functional features, and product information. These elements come together in a vibrant visual language designed to engage parents and communicate the product’s advantages across campaign and point-of-sale materials.',
+        ],
         info: info('2025', 'Rebranding\n3D\nSocial media\nWeb design', 'Blender · After Effects · Photoshop'),
       },
-      { type: 'image-full', tone: 'alt', items: [ph('16/9'), ph('16/9'), ph('16/9')] },
-      { type: 'image-pair', items: [ph('3/4'), ph('3/4')] },
-      { type: 'image-grid', tone: 'alt', items: [ph('3/4'), ph('3/4'), ph('3/4'), ph('3/4')] },
+      {
+        type: 'image-full',
+        tone: 'alt',
+        items: [
+          {
+            kind: 'image',
+            src: '/media/kv-turma-da-monica-baby/kv-1.png',
+            alt: 'Key visual for the new Turma da Mônica Baby Shortinho packaging',
+            ratio: '16/9',
+          },
+        ],
+      },
+      {
+        type: 'text',
+        kicker: 'Process',
+        paragraphs: [
+          'Exploring the visual language.',
+          'We explored different visual approaches to capture the playful world of Turma da Mônica Baby and highlight the key benefits of the new Shortinho packaging. The composition brings together vibrant colours, 3D elements, and the brand’s characters, creating a fun and engaging aesthetic across the campaign materials.',
+        ],
+      },
+      {
+        type: 'image-grid',
+        tone: 'alt',
+        items: [
+          { kind: 'image', src: '/media/kv-turma-da-monica-baby/02.jpg', alt: 'Clay render of the packaging scene', ratio: '1/1' },
+          { kind: 'image', src: '/media/kv-turma-da-monica-baby/01.jpg', alt: 'Shortinho packaging on a 3D podium with its key benefits', ratio: '1/1' },
+          { kind: 'image', src: '/media/kv-turma-da-monica-baby/03.jpg', alt: 'Social post highlighting the Shortinho diaper features', ratio: '1/1' },
+          { kind: 'image', src: '/media/kv-turma-da-monica-baby/04.jpg', alt: 'Social post with the available sizes by weight', ratio: '1/1' },
+        ],
+      },
       { type: 'credits', title: 'Credits', items: credits },
     ],
   },

@@ -30,7 +30,7 @@ export function IntroBlock({ title, paragraphs, info, tone }: IntroData) {
 export function TextBlock({ kicker, title, paragraphs, tone }: TextData) {
   return (
     <Section tone={tone}>
-      {title && <SectionHeader kicker={kicker} title={title} />}
+      {(kicker || title) && <SectionHeader kicker={kicker} title={title} />}
       <Reveal className="flex max-w-[60rem] flex-col gap-[clamp(1rem,0.5rem+1.2vw,2rem)]">
         {paragraphs.map((p, i) => (
           <p key={i} className="text-body-l text-pretty">

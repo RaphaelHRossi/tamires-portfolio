@@ -30,21 +30,22 @@ export function SectionHeader({
   className,
 }: {
   kicker?: string
-  title: string
+  title?: string
   align?: 'left' | 'center' | 'right'
   className?: string
 }) {
   return (
     <Reveal
       className={cn(
-        'mb-(--gap) flex flex-col gap-2 lg:gap-4',
+        'flex flex-col gap-2 lg:gap-4',
+        title ? 'mb-(--gap)' : 'mb-4 lg:mb-6',
         align === 'center' && 'items-center text-center',
         align === 'right' && 'items-end text-right',
         className,
       )}
     >
       {kicker && <p className="text-caption tracking-[0.08em] uppercase opacity-70">{kicker}</p>}
-      <h2 className="text-h2 text-balance">{title}</h2>
+      {title && <h2 className="text-h2 text-balance">{title}</h2>}
     </Reveal>
   )
 }
